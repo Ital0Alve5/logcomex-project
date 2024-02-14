@@ -75,7 +75,6 @@ const filteredColaborators = computed(() => {
     filtersState.search.length > 0
   ) {
     colaboratorsBackup = colaboratorsBackup.filter((colaborator) => {
-      console.log(filtersState.search);
       return (
         filtersState.experience.includes(colaborator.experience) ||
         filtersState.role.includes(colaborator.role) ||
