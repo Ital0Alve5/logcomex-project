@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+*::placeholder {
+  color: $primaryBorder;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 1;
+}
+
+*:focus {
+  outline: none;
+}
+
+h1, h2, h3, p {
+  color: $dark;
+}
