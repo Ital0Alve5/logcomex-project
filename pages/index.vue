@@ -24,8 +24,8 @@
       </FilterButton>
     </div>
     <FilterModal :isOpen="isModalOpen">
-      <FilterModalRole @chosenRole="updateRoleFilter" />
       <FilterModalDepartment @chosenDepartment="updateDepartmentFilter" />
+      <FilterModalRole @chosenRole="updateRoleFilter" />
       <FilterModalExperience @chosenExperience="updateExperienceFilter" />
     </FilterModal>
   </div>
@@ -68,26 +68,34 @@ const filtersState = reactive<{
 const filteredColaborators = computed(() => {
   let colaboratorsBackup = colaborators;
 
-  if (
-    filtersState.experience.length > 0 ||
-    filtersState.role.length > 0 ||
-    filtersState.department.length > 0 ||
-    filtersState.search.length > 0
-  ) {
+  if (filtersState.search.length > 0 && filtersState.search !== "") {
     colaboratorsBackup = colaboratorsBackup.filter((colaborator) => {
-      return (
-        filtersState.experience.includes(colaborator.experience) ||
-        filtersState.role.includes(colaborator.role) ||
-        filtersState.department.includes(colaborator.department) ||
-        (`${colaborator.name} ${colaborator.lastName}`
-          .toLocaleLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(filtersState.search) &&
-          filtersState.search !== "")
-      );
+      return `${colaborator.name} ${colaborator.lastName}`
+        .toLocaleLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .includes(filtersState.search);
     });
   }
+
+  if (filtersState.department.length > 0) {
+    colaboratorsBackup = colaboratorsBackup.filter((colaborator) => {
+      return filtersState.department.includes(colaborator.department);
+    });
+  }
+
+  if (filtersState.role.length > 0) {
+    colaboratorsBackup = colaboratorsBackup.filter((colaborator) => {
+      return filtersState.role.includes(colaborator.role);
+    });
+  }
+
+  if (filtersState.experience.length > 0) {
+    colaboratorsBackup = colaboratorsBackup.filter((colaborator) => {
+      return filtersState.experience.includes(colaborator.experience);
+    });
+  }
+
   return colaboratorsBackup;
 });
 
